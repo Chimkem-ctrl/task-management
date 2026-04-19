@@ -17,26 +17,21 @@ interface UserProfile {
 const Dashboard = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
-
   useEffect(() => {
     const token = getAccessToken();
     if (!token) {
       navigate("/login");
       return;
     }
-
     fetchProfile(token)
       .then(setProfile)
       .catch(() => navigate("/login"));
   }, [navigate]);
-
   const handleLogout = () => {
     clearTokens();
     navigate("/login");
   };
-
   if (!profile) return <p>Loading...</p>;
-
   return (
     <div style={{ maxWidth: 600, margin: "auto", paddingTop: 40 }}>
       <h2>Welcome, {profile.first_name || profile.username}!</h2>
